@@ -17,12 +17,9 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #222; 
-            /* Configuração da Imagem de Fundo */
+            /* Imagem de fundo ajustada para 95% */
             background-image: url('https://media.istockphoto.com/id/1133825734/pt/vetorial/homeless-emoticon.jpg?s=170667a&w=0&k=20&c=3X3xo32bswxRv1GWH9N_mN5Fm3SZVUNIvMo6aRWFOzc=');
-            
-            /* AJUSTE AQUI: Aumentei para 85% da tela. Se quiser maior, aumente esse número. */
-            background-size: 85%; 
-            
+            background-size: 95%; 
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -44,6 +41,7 @@
             z-index: 10;
         }
 
+        /* Estilo base para os botões */
         button {
             padding: 15px 30px;
             border: none;
@@ -52,8 +50,9 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            
-            /* AJUSTE AQUI: Removi a transição (transition) para ele não aumentar de tamanho suavemente */
+            /* Importante: travar a escala para evitar qualquer aumento */
+            transform: scale(1) !important;
+            transition: none !important; 
         }
 
         #sim {
@@ -61,11 +60,11 @@
             color: white;
             position: absolute;
             left: 50px;
-            transition: 0.2s; /* O SIM ainda pode dar um feedback visual */
+            transition: transform 0.2s !important; /* Só o SIM pode crescer se você quiser */
         }
 
         #sim:hover {
-            transform: scale(1.1); /* O SIM cresce um pouquinho no hover */
+            transform: scale(1.1) !important;
         }
 
         #nao {
@@ -73,7 +72,9 @@
             color: white;
             position: absolute;
             right: 50px;
-            /* AJUSTE AQUI: Removida qualquer instrução de transição ou hover que fizesse aumentar */
+            /* Garante que o NÃO nunca mude de tamanho */
+            transition: none !important;
+            transform: none !important;
         }
 
         #agradecimento {
@@ -84,9 +85,8 @@
         }
 
         #agradecimento img {
-            width: 250px; /* Aumentei um pouquinho a imagem final também */
+            width: 250px;
             border-radius: 20px;
-            box-shadow: 0 0 20px black;
         }
 
         #agradecimento h2 {
@@ -109,36 +109,28 @@
 
 <div id="agradecimento">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQocWxCs5RgC0t-8ny3tJLgkWbRIthmiadGPA&s">
-    <h2>Obrigado pelo reconhecimento,Super!</h2>
+    <h2>Obrigado pelo reconhecimento! Sempre mereci.</h2>
 </div>
 
 <script>
     const botaoNao = document.getElementById("nao");
 
-    // Função para o botão fugir
     botaoNao.addEventListener("mouseover", () => {
-        // Define o botão como fixed para ele fugir pela tela toda
         botaoNao.style.position = "fixed";
         
-        // Calcula posições aleatórias, descontando o tamanho do botão
-        const x = Math.random() * (window.innerWidth - botaoNao.offsetWidth - 20);
-        const y = Math.random() * (window.innerHeight - botaoNao.offsetHeight - 20);
+        // Sorteia a posição
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
         
-        // Aplica as novas posições instantaneamente (sem transição de tamanho)
+        // Aplica a posição sem nenhuma animação de tamanho
         botaoNao.style.left = x + "px";
         botaoNao.style.top = y + "px";
     });
 
-    // Função para o botão SIM
     document.getElementById("sim").addEventListener("click", () => {
-        // Esconde o início
         document.getElementById("inicio").style.display = "none";
-        
-        // Muda o fundo para a imagem de festa
         document.body.style.backgroundImage = "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQocWxCs5RgC0t-8ny3tJLgkWbRIthmiadGPA&s')";
-        document.body.style.backgroundSize = "cover"; /* Cobre a tela toda na festa */
-        
-        // Mostra o agradecimento
+        document.body.style.backgroundSize = "cover";
         document.getElementById("agradecimento").style.display = "flex";
     });
 </script>
